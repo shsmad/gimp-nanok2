@@ -1,0 +1,35 @@
+# [build-system]
+# requires = [
+#     "setuptools>=42",
+#     "wheel",
+#     "flit_core >=2,<4"
+# ]
+# build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "gimp-nanok2"
+author = "Artem Remeslennikov"
+author-email = "shsmad@gmail.com"
+home-page = ""
+classifiers = [ "License :: OSI Approved :: MIT License",]
+# description-file = "README.md"
+requires-python = ">=3.9,<4"
+requires=[
+    "python-rtmidi"
+]
+
+[tool.black]
+line-length = 100
+
+
+[tool.tox]
+# https://antonz.org/python-packaging/
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+envlist = py39
+
+[testenv]
+deps = pytest >= 3.0.0, <4
+commands = pytest
+"""
