@@ -1,35 +1,90 @@
-# [build-system]
-# requires = [
-#     "setuptools>=42",
-#     "wheel",
-#     "flit_core >=2,<4"
-# ]
-# build-backend = "flit_core.buildapi"
+[project]
+name = "gimp-nanok2"
+version = "0.1.0"
+description = "gimp-nanok2"
+authors = [
+    {name = "shsmad", email = "shsmad@gmail.com"},
+]
+dependencies = [
+    "python-rtmidi>=1.5.8",
+]
+requires-python = ">=3.10,<3.11"
+readme = "README.md"
+license = {text = "MIT"}
 
-[tool.flit.metadata]
-module = "gimp-nanok2"
-author = "Artem Remeslennikov"
-author-email = "shsmad@gmail.com"
-home-page = ""
-classifiers = [ "License :: OSI Approved :: MIT License",]
-# description-file = "README.md"
-requires-python = ">=3.9,<4"
-requires=[
-    "python-rtmidi"
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ipdb>=0.13.13",
+    "ipython>=8.35.0",
+    "ruff>=0.11.4",
+    "mypy>=1.15.0",
 ]
 
-[tool.black]
-line-length = 100
+[tool.pdm.scripts]
+_.env_file = ".env"
+lint = "ruff check src"
 
+[tool.mypy]
+follow_imports = "skip"
+ignore_missing_imports = true
+strict_optional = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+pretty = true
 
-[tool.tox]
-# https://antonz.org/python-packaging/
-legacy_tox_ini = """
-[tox]
-isolated_build = True
-envlist = py39
+[tool.ruff]
+target-version = "py310"
+exclude = [
+    ".tox",
+    ".git",
+    "__pycache__",
+    "docs/source/conf.py",
+    "old",
+    "build",
+    "dist",
+    "*_pb2*.py",
+    "setup.py",
+    "src/appserver/disabled_modules/UIKIT"
+]
+line-length = 120
 
-[testenv]
-deps = pytest >= 3.0.0, <4
-commands = pytest
-"""
+[tool.ruff.lint]
+ignore = [
+    "A003",
+    "D107",
+    "D202",
+    "D203",
+    "D401",
+]
+select = [
+    "A", # builtins
+    "B", # bugbear
+    "C4", # comprehensions
+    "COM", # commas
+    # "D",   # pydocstyle
+    "E", # pycodestyle
+    "F", # pyflakes
+    "I", # isort
+    "PT", # pytest-style
+    "S", # bandit
+    "SIM", # simplify
+    "T1", # debugger
+    "T2", # print
+    "UP", # pyupgrade
+    "W", # pycodestyle
+]
+# Avoid trying to fix flake8-bugbear (`B`) violations.
+unfixable = ["B"]
+
+[tool.ruff.lint.isort]
+lines-between-types = 1
+known-first-party = ["test"]
+known-local-folder = ["src"]
+force-single-line = false
